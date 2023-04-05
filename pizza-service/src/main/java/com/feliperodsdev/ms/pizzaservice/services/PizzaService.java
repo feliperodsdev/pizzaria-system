@@ -20,9 +20,10 @@ public class PizzaService {
         this.pizzaRepository = pizzaRepository;
     }
 
-    public void createPizza(CreatePizzaDto createPizzaDto){
+    public Pizza createPizza(CreatePizzaDto createPizzaDto){
         Pizza pizza = Pizza.Create(createPizzaDto.getName(), createPizzaDto.getDesc(), createPizzaDto.getPrice());
         this.pizzaRepository.save(pizza);
+        return pizza;
     }
 
     public List<Pizza> getAllPizzas(){
