@@ -38,7 +38,7 @@ public class Pizza {
         return pizza;
     }
 
-    public void UpdateName(String name){
+    public void updateName(String name){
 
         if(!isValidName(name)) {
             throw new EntitieValidationException("'name' is invalid.");
@@ -47,7 +47,7 @@ public class Pizza {
         this.name = name;
     }
 
-    public void UpdatePrice(Double price){
+    public void updatePrice(Double price){
 
         if(!isValidPrice(price)){
             throw new EntitieValidationException("'price' cannot be less than 0.");
@@ -56,7 +56,7 @@ public class Pizza {
         this.price = BigDecimal.valueOf(price);
     }
 
-    public void UpdateDesc(String desc){
+    public void updateDesc(String desc){
 
         if(!isValidDesc(desc)){
             throw new EntitieValidationException("'desc' is invalid.");

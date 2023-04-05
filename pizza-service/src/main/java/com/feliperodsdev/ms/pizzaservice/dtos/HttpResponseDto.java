@@ -23,8 +23,8 @@ public class HttpResponseDto {
             return new ResponseEntity<>(new ResponseObjectDto<>(data, HttpStatus.OK.value()),HttpStatus.OK);
         }
 
-    public <T> ResponseEntity<Object> found(T data){
-        return new ResponseEntity<>(new ResponseObjectDto<>(data, HttpStatus.FOUND.value()),HttpStatus.FOUND);
-    }
+        public <T> ResponseEntity<Object> found(T data){
+            return new ResponseEntity<>(new ResponseObjectDto<>(data, HttpStatus.FOUND.value()),HttpStatus.FOUND);
+        }
 
 }

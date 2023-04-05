@@ -1,6 +1,7 @@
 package com.feliperodsdev.ms.pizzaservice.services;
 
 import com.feliperodsdev.ms.pizzaservice.dtos.CreatePizzaDto;
+import com.feliperodsdev.ms.pizzaservice.dtos.UpdatePizzaDto;
 import com.feliperodsdev.ms.pizzaservice.model.Pizza;
 import com.feliperodsdev.ms.pizzaservice.repositories.IPizzaRepository;
 import com.feliperodsdev.ms.pizzaservice.services.exceptions.ResouceNotFound;
@@ -19,7 +20,7 @@ public class PizzaService {
         this.pizzaRepository = pizzaRepository;
     }
 
-    public void CreatePizza(CreatePizzaDto createPizzaDto){
+    public void createPizza(CreatePizzaDto createPizzaDto){
         Pizza pizza = Pizza.Create(createPizzaDto.getName(), createPizzaDto.getDesc(), createPizzaDto.getPrice());
         this.pizzaRepository.save(pizza);
     }
@@ -31,6 +32,16 @@ public class PizzaService {
     public Pizza findPizzaById(String id){
         Optional<Pizza> pizza = this.pizzaRepository.findPizzaById(id);
         return pizza.orElseThrow(() -> new ResouceNotFound(id));
+    }
+
+    public void updatePizza(String id, UpdatePizzaDto updatePizzaDto){
+        Pizza pizzaToUpdate = findPizzaById(id);
+
+        pizzaToUpdate.updateName(updatePizzaDto.getName());
+        pizzaToUpdate.updatePrice(updatePizzaDto.getPrice());
+        pizzaToUpdate.updateDesc(updatePizzaDto.getDesc());
+
+        this.pizzaRepository.save(pizzaToUpdate);
     }
 
 }

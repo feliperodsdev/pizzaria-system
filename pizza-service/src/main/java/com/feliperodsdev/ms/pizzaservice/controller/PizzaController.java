@@ -36,7 +36,7 @@ public class PizzaController {
             }
         }
 
-        pizzaService.CreatePizza(createPizzaDto);
+        pizzaService.createPizza(createPizzaDto);
 
         return response.created("created");
     }

@@ -15,7 +15,7 @@ public class PizzaServiceTest {
     @Test
     public void should_create_an_pizza() {
         CreatePizzaDto pizza = GetPizza();
-        pizzaService.CreatePizza(pizza);
+        pizzaService.createPizza(pizza); 
         Assertions.assertEquals(1, pizzaService.getAllPizzas().size());
     }
 
