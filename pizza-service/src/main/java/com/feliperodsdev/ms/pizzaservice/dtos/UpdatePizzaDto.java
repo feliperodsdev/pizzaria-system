@@ -6,6 +6,12 @@ public class UpdatePizzaDto {
     private String desc;
     private Double price;
 
+    public UpdatePizzaDto(String name, String desc, Double price) {
+        this.name = name;
+        this.desc = desc;
+        this.price = price;
+    }
+
     public String getName() {
         return name;
     }
