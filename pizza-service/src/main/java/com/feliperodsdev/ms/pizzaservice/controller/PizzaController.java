@@ -2,6 +2,7 @@ package com.feliperodsdev.ms.pizzaservice.controller;
 
 import com.feliperodsdev.ms.pizzaservice.dtos.CreatePizzaDto;
 import com.feliperodsdev.ms.pizzaservice.dtos.HttpResponseDto;
+import com.feliperodsdev.ms.pizzaservice.dtos.UpdatePizzaDto;
 import com.feliperodsdev.ms.pizzaservice.model.Pizza;
 import com.feliperodsdev.ms.pizzaservice.services.PizzaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +60,30 @@ public class PizzaController {
         HttpResponseDto response = new HttpResponseDto();
         Pizza pizza = pizzaService.findPizzaById(Id);
         return response.found(pizza);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> updatePizzaById(@PathVariable("id") String Id, @RequestBody UpdatePizzaDto updatePizzaDto){
+        HttpResponseDto response = new HttpResponseDto();
+
+        String[] requiredFields = {"name", "desc", "price"};
+
+        for (String field : requiredFields) {
+            try {
+                Field declaredField = updatePizzaDto.getClass().getDeclaredField(field);
+                declaredField.setAccessible(true);
+                if (declaredField.get(updatePizzaDto) == null) {
+                    return response.badRequest("Missing Param: " + field);
+                }
+            } catch (NoSuchFieldException | IllegalAccessException e) {
+                return response.serverError(e.getMessage());
+            }
+        }
+
+        pizzaService.updatePizza(Id, updatePizzaDto);
+
+        return response.ok("updated");
+
     }
 
 }
