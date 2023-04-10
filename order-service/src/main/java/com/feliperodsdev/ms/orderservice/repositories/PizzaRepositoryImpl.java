@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @Qualifier("PostgresPizzaRepository")
@@ -22,5 +23,10 @@ public class PizzaRepositoryImpl implements IPizzaRepository {
     @Override
     public List<Pizza> getPizzas() {
         return this.pizzaRepositoryPostgres.findAll();
+    }
+
+    @Override
+    public Optional<Pizza> findPizzaById(String id) {
+        return this.pizzaRepositoryPostgres.findById(id);
     }
 }
