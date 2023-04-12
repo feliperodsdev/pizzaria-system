@@ -1,6 +1,7 @@
 package com.feliperodsdev.ms.orderservice.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.feliperodsdev.ms.orderservice.model.exceptions.EntityValidationException;
 
 import javax.persistence.*;
@@ -16,12 +17,13 @@ public class OrderItem {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "order_id")
     private Order order;
 
     private String pizza_id;
-    private BigDecimal price;
-    private BigDecimal sub_total;
-    private BigDecimal discount;
+    private Double price;
+    private Double sub_total;
+    private Double discount;
 
     public OrderItem(){}
 
@@ -30,7 +32,7 @@ public class OrderItem {
 
         if(!orderItem.isValidPrice(price)) throw new EntityValidationException("'price' is invalid.");
 
-        orderItem.price = BigDecimal.valueOf(price);
+        orderItem.price = price;
 
         if(!orderItem.isValidPizzaId(pizza_id)) throw new EntityValidationException("'pizza_id' is invalid.");
 
@@ -38,7 +40,7 @@ public class OrderItem {
 
         if(!orderItem.isValidDiscount(discount)) throw new EntityValidationException("'discount' is invalid.");
 
-        orderItem.discount = BigDecimal.valueOf(discount);
+        orderItem.discount = discount;
 
         orderItem.sub_total = orderItem.calcSubTotal(discount, price);
 
@@ -59,11 +61,32 @@ public class OrderItem {
         return price >= 0;
     }
 
-    public BigDecimal calcSubTotal(Double discount, Double price){
-        return BigDecimal.valueOf((price*discount)/100).setScale(2, RoundingMode.DOWN);
+    public Double calcSubTotal(Double discount, Double price){
+        return price - ((price*discount)/100);
     }
 
     public String getPizza_id() {
         return pizza_id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setOrder(Order order){
+        this.order = order;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public Double getSub_total() {
+        return sub_total;
+    }
+
+    @JsonIgnore
+    public Double getDiscount() {
+        return discount;
     }
 }

@@ -5,7 +5,6 @@ import com.feliperodsdev.ms.orderservice.model.exceptions.EntityValidationExcept
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.math.BigDecimal;
 
 @Entity
 @Table(name = "tb_pizzas")
@@ -13,7 +12,7 @@ public class Pizza {
 
     @Id
     private String pizza_id;
-    private BigDecimal price;
+    private Double price;
 
     public Pizza(){}
 
@@ -30,7 +29,7 @@ public class Pizza {
             throw new EntityValidationException("'price' is invalid.");
         }
 
-        pizza.price = BigDecimal.valueOf(price);
+        pizza.price = price;
 
         return pizza;
 
@@ -52,14 +51,14 @@ public class Pizza {
             throw new EntityValidationException("'price' cannot be less than 0.");
         }
 
-        this.price = BigDecimal.valueOf(price);
+        this.price = price;
     }
 
     public String getPizza_id() {
         return pizza_id;
     }
 
-    public BigDecimal getPrice() {
+    public Double getPrice() {
         return price;
     }
 }

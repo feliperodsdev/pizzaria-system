@@ -16,7 +16,7 @@ public class Order {
     private Boolean payment_status;
     private LocalDateTime date;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> order_item_list;
 
     public Order(){}
@@ -42,6 +42,10 @@ public class Order {
 
         if(!order.isValidListOrderItem(order_item_list)) throw new EntityValidationException("Order cannot be placed without product(s).");
 
+        for (OrderItem orderItem: order_item_list){
+            orderItem.setOrder(order);
+        }
+
         order.order_item_list = order_item_list;
         order.payment_status = false;
         order.date = LocalDateTime.now();
@@ -56,6 +60,10 @@ public class Order {
     public void updatePaymentStatus(){
         if(this.payment_status) this.payment_status = false;
         else this.payment_status = true;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
 }
