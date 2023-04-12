@@ -63,4 +63,7 @@ public class OrderItem {
         return BigDecimal.valueOf((price*discount)/100).setScale(2, RoundingMode.DOWN);
     }
 
+    public String getPizza_id() {
+        return pizza_id;
+    }
 }
