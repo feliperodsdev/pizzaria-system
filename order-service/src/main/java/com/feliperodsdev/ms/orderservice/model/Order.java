@@ -40,7 +40,7 @@ public class Order {
     public static Order create(List<OrderItem> order_item_list){
         Order order = new Order();
 
-        if(!order.isValidListOrderItem(order_item_list)) throw new EntityValidationException("Order cannot be placed without product.");
+        if(!order.isValidListOrderItem(order_item_list)) throw new EntityValidationException("Order cannot be placed without product(s).");
 
         order.order_item_list = order_item_list;
         order.payment_status = false;
