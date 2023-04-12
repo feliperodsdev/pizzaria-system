@@ -6,6 +6,8 @@ public class CreateOrderDto {
 
     private List<OrderItemDto> orderItemDtoList;
 
+    public CreateOrderDto(){}
+
     public CreateOrderDto(List<OrderItemDto> orderItemDtoList) {
         this.orderItemDtoList = orderItemDtoList;
     }
@@ -14,4 +16,7 @@ public class CreateOrderDto {
         return orderItemDtoList;
     }
 
+    public void setOrderItemDtoList(List<OrderItemDto> orderItemDtoList) {
+        this.orderItemDtoList = orderItemDtoList;
+    }
 }

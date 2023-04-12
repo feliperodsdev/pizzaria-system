@@ -5,6 +5,9 @@ public class OrderItemDto {
     private String pizza_id;
     private Double discount;
 
+    public OrderItemDto() {
+    }
+
     public OrderItemDto(String pizza_id, Double discount) {
         this.pizza_id = pizza_id;
         this.discount = discount;
