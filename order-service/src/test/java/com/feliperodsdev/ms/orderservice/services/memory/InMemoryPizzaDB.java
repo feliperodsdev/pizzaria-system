@@ -5,6 +5,7 @@ import com.feliperodsdev.ms.orderservice.repositories.IPizzaRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class InMemoryPizzaDB implements IPizzaRepository {
 
@@ -18,6 +19,16 @@ public class InMemoryPizzaDB implements IPizzaRepository {
     @Override
     public List<Pizza> getPizzas() {
         return this.pizzaList;
+    }
+
+    @Override
+    public Optional<Pizza> findPizzaById(String id) {
+        for (Pizza pizza : pizzaList) {
+            if (pizza.getPizza_id().equals(id)) {
+                return Optional.of(pizza);
+            }
+        }
+        return Optional.empty();
     }
 
 }
