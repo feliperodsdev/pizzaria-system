@@ -21,6 +21,22 @@ public class Order {
 
     public Order(){}
 
+    public Long getId() {
+        return id;
+    }
+
+    public Boolean getPayment_status() {
+        return payment_status;
+    }
+
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public List<OrderItem> getOrder_item_list() {
+        return order_item_list;
+    }
+
     public static Order create(List<OrderItem> order_item_list){
         Order order = new Order();
 
