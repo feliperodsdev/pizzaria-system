@@ -20,11 +20,11 @@ public class PizzaService {
     }
 
     public void createPizza(CreatePizzaDto createPizzaDto){
-        Optional<Pizza> pizzaOptional = getPizzaById(createPizzaDto.getPizza_id());
+        Optional<Pizza> pizzaOptional = getPizzaById(createPizzaDto.getPizzaId());
 
         if(!pizzaOptional.isEmpty()) throw new ResourceAlreadyExists("This 'id' already exists.");
 
-        Pizza pizza = Pizza.Create(createPizzaDto.getPizza_id(), createPizzaDto.getPrice());
+        Pizza pizza = Pizza.Create(createPizzaDto.getPizzaId(), createPizzaDto.getPrice());
         pizzaRepository.savePizza(pizza);
     }
 

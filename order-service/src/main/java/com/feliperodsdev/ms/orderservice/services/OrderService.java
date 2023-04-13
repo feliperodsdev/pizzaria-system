@@ -41,10 +41,10 @@ public class OrderService {
 
         for(Order order: listOrder){
             Double sub_total = 0.0;
-            for(OrderItem orderItem: order.getOrder_item_list()){
-                sub_total+=orderItem.getSub_total();
+            for(OrderItem orderItem: order.getOrderItemList()){
+                sub_total+=orderItem.getSubTotal();
             }
-            orderDtoList.add(new OrderDto(order.getId(), order.getDate(), order.getPayment_status(), sub_total));
+            orderDtoList.add(new OrderDto(order.getId(), order.getDate(), order.getPaymentStatus(), sub_total));
         }
 
         return orderDtoList;
@@ -54,9 +54,9 @@ public class OrderService {
         List<OrderItem> orderItemList = new ArrayList<>();
 
         for(OrderItemDto orderItemDto: list){
-            Pizza pizza = getPizza(orderItemDto.getPizza_id());
+            Pizza pizza = getPizza(orderItemDto.getPizzaId());
 
-            OrderItem orderItem = OrderItem.create(pizza.getPizza_id(),
+            OrderItem orderItem = OrderItem.create(pizza.getPizzaId(),
                     pizza.getPrice(),
                     orderItemDto.getDiscount());
 

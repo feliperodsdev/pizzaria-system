@@ -5,8 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.feliperodsdev.ms.orderservice.model.exceptions.EntityValidationException;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 @Entity
 @Table(name = "tb_order_item")
@@ -20,29 +18,29 @@ public class OrderItem {
     @JoinColumn(name = "order_id")
     private Order order;
 
-    private String pizza_id;
+    private String pizzaId;
     private Double price;
-    private Double sub_total;
+    private Double subTotal;
     private Double discount;
 
     public OrderItem(){}
 
-    public static OrderItem create(String pizza_id, Double price, Double discount){
+    public static OrderItem create(String pizzaId, Double price, Double discount){
         OrderItem orderItem = new OrderItem();
 
         if(!orderItem.isValidPrice(price)) throw new EntityValidationException("'price' is invalid.");
 
         orderItem.price = price;
 
-        if(!orderItem.isValidPizzaId(pizza_id)) throw new EntityValidationException("'pizza_id' is invalid.");
+        if(!orderItem.isValidPizzaId(pizzaId)) throw new EntityValidationException("'pizza_id' is invalid.");
 
-        orderItem.pizza_id = pizza_id;
+        orderItem.pizzaId = pizzaId;
 
         if(!orderItem.isValidDiscount(discount)) throw new EntityValidationException("'discount' is invalid.");
 
         orderItem.discount = discount;
 
-        orderItem.sub_total = orderItem.calcSubTotal(discount, price);
+        orderItem.subTotal = orderItem.calcSubTotal(discount, price);
 
         return orderItem;
     }
@@ -65,8 +63,8 @@ public class OrderItem {
         return price - ((price*discount)/100);
     }
 
-    public String getPizza_id() {
-        return pizza_id;
+    public String getPizzaId() {
+        return pizzaId;
     }
 
     public void setId(Long id) {
@@ -81,12 +79,13 @@ public class OrderItem {
         return price;
     }
 
-    public Double getSub_total() {
-        return sub_total;
+    public Double getSubTotal() {
+        return subTotal;
     }
 
     @JsonIgnore
     public Double getDiscount() {
         return discount;
     }
+
 }

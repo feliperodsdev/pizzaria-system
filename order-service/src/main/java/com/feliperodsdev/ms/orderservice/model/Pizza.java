@@ -11,7 +11,7 @@ import javax.persistence.Table;
 public class Pizza {
 
     @Id
-    private String pizza_id;
+    private String pizzaId;
     private Double price;
 
     public Pizza(){}
@@ -23,7 +23,7 @@ public class Pizza {
             throw new EntityValidationException("'id' is invalid.");
         }
 
-        pizza.pizza_id = id;
+        pizza.pizzaId = id;
 
         if(!pizza.isValidPrice(price)){
             throw new EntityValidationException("'price' is invalid.");
@@ -54,11 +54,12 @@ public class Pizza {
         this.price = price;
     }
 
-    public String getPizza_id() {
-        return pizza_id;
+    public String getPizzaId() {
+        return pizzaId;
     }
 
     public Double getPrice() {
         return price;
     }
+
 }

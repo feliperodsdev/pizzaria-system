@@ -4,13 +4,16 @@ import com.feliperodsdev.ms.orderservice.dtos.CreateOrderDto;
 import com.feliperodsdev.ms.orderservice.dtos.OrderItemDto;
 import com.feliperodsdev.ms.orderservice.services.memory.InMemoryOrderDB;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class OrderServiceTest {
 
-    private OrderService orderService = new OrderService(new InMemoryOrderDB());
+    OrderService orderService = new OrderService(new InMemoryOrderDB());
 
     @Test
     public void should_create_an_order(){

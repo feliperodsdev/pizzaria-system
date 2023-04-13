@@ -13,11 +13,11 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private Boolean payment_status;
+    private Boolean paymentStatus;
     private LocalDateTime date;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    private List<OrderItem> order_item_list;
+    private List<OrderItem> orderItemList;
 
     public Order(){}
 
@@ -25,41 +25,41 @@ public class Order {
         return id;
     }
 
-    public Boolean getPayment_status() {
-        return payment_status;
+    public Boolean getPaymentStatus() {
+        return paymentStatus;
     }
 
     public LocalDateTime getDate() {
         return date;
     }
 
-    public List<OrderItem> getOrder_item_list() {
-        return order_item_list;
+    public List<OrderItem> getOrderItemList() {
+        return orderItemList;
     }
 
-    public static Order create(List<OrderItem> order_item_list){
+    public static Order create(List<OrderItem> orderItemList){
         Order order = new Order();
 
-        if(!order.isValidListOrderItem(order_item_list)) throw new EntityValidationException("Order cannot be placed without product(s).");
+        if(!order.isValidListOrderItem(orderItemList)) throw new EntityValidationException("Order cannot be placed without product(s).");
 
-        for (OrderItem orderItem: order_item_list){
+        for (OrderItem orderItem: orderItemList){
             orderItem.setOrder(order);
         }
 
-        order.order_item_list = order_item_list;
-        order.payment_status = false;
+        order.orderItemList = orderItemList;
+        order.paymentStatus = false;
         order.date = LocalDateTime.now();
 
         return order;
     }
 
-    public boolean isValidListOrderItem(List<OrderItem> order_item_list){
-        return order_item_list.size() > 0;
+    public boolean isValidListOrderItem(List<OrderItem> orderItemList){
+        return orderItemList.size() > 0;
     }
 
     public void updatePaymentStatus(){
-        if(this.payment_status) this.payment_status = false;
-        else this.payment_status = true;
+        if(this.paymentStatus) this.paymentStatus = false;
+        else this.paymentStatus = true;
     }
 
     public void setId(Long id) {

@@ -21,8 +21,8 @@ public class OrderTest {
         OrderItemDto orderItemDto = getOrderItemDto();
         itemDtos.add(orderItemDto);
         Order order = Order.create(mapListOrderItem(getOrderDto(itemDtos).getOrderItemDtoList()));
-        Assertions.assertEquals(order.getPayment_status(), false);
-        Assertions.assertEquals(order.getOrder_item_list().get(0).getPizza_id(), "valid id.");
+        Assertions.assertEquals(order.getPaymentStatus(), false);
+        Assertions.assertEquals(order.getOrderItemList().get(0).getPizzaId(), "valid id.");
     }
 
     @Test
@@ -41,7 +41,7 @@ public class OrderTest {
         int size = list.size();
         List<OrderItem> orderItemList = new ArrayList<>();
         for(int i = 0; i<size; ++i){
-            OrderItem orderItem = OrderItem.create(list.get(i).getPizza_id(),
+            OrderItem orderItem = OrderItem.create(list.get(i).getPizzaId(),
                     151.1,
                     list.get(i).getDiscount());
             orderItemList.add(orderItem);

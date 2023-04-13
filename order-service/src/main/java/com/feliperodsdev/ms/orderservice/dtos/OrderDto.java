@@ -6,14 +6,14 @@ public class OrderDto {
 
     private Long id;
     private LocalDateTime date;
-    private Boolean payment_status;
-    private Double sub_total;
+    private Boolean paymentStatus;
+    private Double subTotal;
 
-    public OrderDto(Long id, LocalDateTime date, Boolean payment_status, Double sub_total) {
+    public OrderDto(Long id, LocalDateTime date, Boolean paymentStatus, Double subTotal) {
         this.id = id;
         this.date = date;
-        this.payment_status = payment_status;
-        this.sub_total = sub_total;
+        this.paymentStatus = paymentStatus;
+        this.subTotal = subTotal;
     }
 
     public Long getId() {
@@ -24,11 +24,11 @@ public class OrderDto {
         return date;
     }
 
-    public Boolean getPayment_status() {
-        return payment_status;
+    public Boolean getPaymentStatus() {
+        return paymentStatus;
     }
 
-    public Double getSub_total() {
-        return sub_total;
+    public Double getSubTotal() {
+        return subTotal;
     }
 }

@@ -24,7 +24,7 @@ public class InMemoryPizzaDB implements IPizzaRepository {
     @Override
     public Optional<Pizza> findPizzaById(String id) {
         for (Pizza pizza : pizzaList) {
-            if (pizza.getPizza_id().equals(id)) {
+            if (pizza.getPizzaId().equals(id)) {
                 return Optional.of(pizza);
             }
         }

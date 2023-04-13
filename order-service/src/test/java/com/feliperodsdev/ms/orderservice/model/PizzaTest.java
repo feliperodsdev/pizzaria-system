@@ -3,8 +3,6 @@ package com.feliperodsdev.ms.orderservice.model;
 import com.feliperodsdev.ms.orderservice.model.exceptions.EntityValidationException;
 import org.junit.jupiter.api.Test;
 
-import java.math.BigDecimal;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 
@@ -14,7 +12,7 @@ public class PizzaTest {
     public void should_create_pizza(){
         Pizza pizza = Pizza.Create("6425b05a66bb0e2c94fbac9f",15.5);
 
-        assertEquals(pizza.getPrice(), BigDecimal.valueOf(15.5));
+        assertEquals(pizza.getPrice().equals(15.5), true);
     }
 
     @Test

@@ -4,19 +4,16 @@ import java.util.List;
 
 public class CreateOrderDto {
 
-    private List<OrderItemDto> orderItemDtoList;
+    private List<OrderItemDto> orderItemList;
 
     public CreateOrderDto(){}
 
     public CreateOrderDto(List<OrderItemDto> orderItemDtoList) {
-        this.orderItemDtoList = orderItemDtoList;
+        this.orderItemList = orderItemDtoList;
     }
 
     public List<OrderItemDto> getOrderItemDtoList() {
-        return orderItemDtoList;
+        return orderItemList;
     }
 
-    public void setOrderItemDtoList(List<OrderItemDto> orderItemDtoList) {
-        this.orderItemDtoList = orderItemDtoList;
-    }
 }
