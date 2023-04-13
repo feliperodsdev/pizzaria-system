@@ -20,7 +20,7 @@ public class OrderController {
         return response.created(orderService.createOrder(createOrderDto));
     }
 
-    @GetMapping("/")
+    @GetMapping("/get-orders")
     public ResponseEntity<Object> getOrders(){
         HttpResponseDto response = new HttpResponseDto();
         return response.ok(orderService.getOrders());
