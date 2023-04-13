@@ -16,4 +16,9 @@ public class InMemoryOrderDB implements IOrderRepository {
         return order;
     }
 
+    @Override
+    public List<Order> findAll() {
+        return orderList;
+    }
+
 }

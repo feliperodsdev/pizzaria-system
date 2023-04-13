@@ -5,10 +5,7 @@ import com.feliperodsdev.ms.orderservice.dtos.HttpResponseDto;
 import com.feliperodsdev.ms.orderservice.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/order")
@@ -21,6 +18,12 @@ public class OrderController {
     public ResponseEntity<Object> createOrder(@RequestBody CreateOrderDto createOrderDto){
         HttpResponseDto response = new HttpResponseDto();
         return response.created(orderService.createOrder(createOrderDto));
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<Object> getOrders(){
+        HttpResponseDto response = new HttpResponseDto();
+        return response.ok(orderService.getOrders());
     }
 
 }

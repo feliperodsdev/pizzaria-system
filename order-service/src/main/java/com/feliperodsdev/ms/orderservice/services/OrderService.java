@@ -1,6 +1,7 @@
 package com.feliperodsdev.ms.orderservice.services;
 
 import com.feliperodsdev.ms.orderservice.dtos.CreateOrderDto;
+import com.feliperodsdev.ms.orderservice.dtos.OrderDto;
 import com.feliperodsdev.ms.orderservice.dtos.OrderItemDto;
 import com.feliperodsdev.ms.orderservice.model.Order;
 import com.feliperodsdev.ms.orderservice.model.OrderItem;
@@ -20,7 +21,8 @@ public class OrderService {
 
     private IOrderRepository orderRepository;
 
-    private PizzaService pizzaService;
+    @Autowired
+    PizzaService pizzaService;
 
     public OrderService(@Qualifier("PostgresOrderRepository") IOrderRepository orderRepository) {
         this.orderRepository = orderRepository;
@@ -30,6 +32,22 @@ public class OrderService {
         Order order = Order.create(mapToListOrderItem(createOrderDto.getOrderItemDtoList()));
         orderRepository.save(order);
         return order;
+    }
+
+    public List<OrderDto> getOrders(){
+        List<OrderDto> orderDtoList = new ArrayList<>();
+
+        List<Order> listOrder = orderRepository.findAll();
+
+        for(Order order: listOrder){
+            Double sub_total = 0.0;
+            for(OrderItem orderItem: order.getOrder_item_list()){
+                sub_total+=orderItem.getSub_total();
+            }
+            orderDtoList.add(new OrderDto(order.getId(), order.getDate(), order.getPayment_status(), sub_total));
+        }
+
+        return orderDtoList;
     }
 
     public List<OrderItem> mapToListOrderItem(List<OrderItemDto> list){
