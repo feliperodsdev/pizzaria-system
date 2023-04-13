@@ -24,8 +24,8 @@ public class ResourceExceptionHandler {
     @ExceptionHandler(ResourceAlreadyExists.class)
     public ResponseEntity<Object> alreadyExist(ResourceAlreadyExists e){
         HttpResponseDto response = new HttpResponseDto();
-        String error = "Error";
-        HttpStatus statusCode = HttpStatus.BAD_REQUEST;
+        String error = "Already found";
+        HttpStatus statusCode = HttpStatus.FOUND;
         StandardError standardError = new StandardError(statusCode, error, e.getMessage());
         return response.badRequest(standardError);
     }
