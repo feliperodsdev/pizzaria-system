@@ -1,6 +1,7 @@
 package com.feliperodsdev.ms.orderservice.services;
 
 import com.feliperodsdev.ms.orderservice.dtos.CreatePizzaDto;
+import com.feliperodsdev.ms.orderservice.dtos.UpdatePizzaDto;
 import com.feliperodsdev.ms.orderservice.model.Pizza;
 import com.feliperodsdev.ms.orderservice.services.memory.InMemoryPizzaDB;
 import org.junit.jupiter.api.Assertions;
@@ -23,6 +24,18 @@ public class PizzaServiceTest {
     public void should_return_pizzas() {
         List<Pizza> pizzaList = pizzaService.getAllPizzas();
         Assertions.assertEquals(0, pizzaList.size());
+    }
+
+    @Test
+    public void should_update_pizza() {
+        CreatePizzaDto pizzaCreate = GetPizza();
+        pizzaService.createPizza(pizzaCreate);
+        List<Pizza> pizzaList = pizzaService.getAllPizzas();
+        Pizza pizza = pizzaService.getPizzaById(pizzaList.get(0).getPizzaId()).get();
+        UpdatePizzaDto updatePizzaDto = new UpdatePizzaDto(pizza.getPizzaId(), 20.0);
+        pizzaService.updatePizza(updatePizzaDto);
+        Pizza pizzaUpdated = pizzaService.getPizzaById(pizzaList.get(0).getPizzaId()).get();
+        Assertions.assertEquals(pizzaUpdated.getPrice(), 20.0);
     }
 
     public CreatePizzaDto GetPizza(){
