@@ -38,10 +38,10 @@ public class PizzaService {
         return pizzaRepository.getPizzas();
     }
 
-    public void updatePizza(UpdatePizzaDto updatePizzaDto){
-        Optional<Pizza> pizzaToUpdate = getPizzaById(updatePizzaDto.getPizzaId());
+    public void updatePizza(String id, UpdatePizzaDto updatePizzaDto){
+        Optional<Pizza> pizzaToUpdate = getPizzaById(id);
 
-        Pizza pizza = pizzaToUpdate.orElseThrow(() -> new ResourceNotFound("Pizza not found, id: " + updatePizzaDto.getPizzaId()));
+        Pizza pizza = pizzaToUpdate.orElseThrow(() -> new ResourceNotFound("Pizza not found, id: " + id));
 
         pizza.updatePrice(updatePizzaDto.getPrice());
         pizzaRepository.savePizza(pizza);

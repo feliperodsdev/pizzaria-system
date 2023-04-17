@@ -2,23 +2,13 @@ package com.feliperodsdev.ms.orderservice.dtos;
 
 public class UpdatePizzaDto {
 
-    private String pizzaId;
     private Double price;
 
-    public UpdatePizzaDto() {
-    }
-
-    public UpdatePizzaDto(String pizzaId, Double price) {
-        this.pizzaId = pizzaId;
+    public UpdatePizzaDto(Double price) {
         this.price = price;
     }
 
-    public String getPizzaId() {
-        return pizzaId;
-    }
-
-    public void setPizzaId(String pizzaId) {
-        this.pizzaId = pizzaId;
+    public UpdatePizzaDto() {
     }
 
     public Double getPrice() {
@@ -28,4 +18,5 @@ public class UpdatePizzaDto {
     public void setPrice(Double price) {
         this.price = price;
     }
+
 }

@@ -32,8 +32,8 @@ public class PizzaServiceTest {
         pizzaService.createPizza(pizzaCreate);
         List<Pizza> pizzaList = pizzaService.getAllPizzas();
         Pizza pizza = pizzaService.getPizzaById(pizzaList.get(0).getPizzaId()).get();
-        UpdatePizzaDto updatePizzaDto = new UpdatePizzaDto(pizza.getPizzaId(), 20.0);
-        pizzaService.updatePizza(updatePizzaDto);
+        UpdatePizzaDto updatePizzaDto = new UpdatePizzaDto(20.0);
+        pizzaService.updatePizza(pizza.getPizzaId(), updatePizzaDto);
         Pizza pizzaUpdated = pizzaService.getPizzaById(pizzaList.get(0).getPizzaId()).get();
         Assertions.assertEquals(pizzaUpdated.getPrice(), 20.0);
     }
