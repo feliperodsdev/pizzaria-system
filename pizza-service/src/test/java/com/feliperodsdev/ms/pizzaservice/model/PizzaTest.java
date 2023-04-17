@@ -1,6 +1,6 @@
 package com.feliperodsdev.ms.pizzaservice.model;
 
-import com.feliperodsdev.ms.pizzaservice.model.exceptions.EntitieValidationException;
+import com.feliperodsdev.ms.pizzaservice.model.exceptions.EntityValidationException;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -22,7 +22,7 @@ public class PizzaTest {
 
         Pizza pizza = CreatePizza();
 
-        EntitieValidationException entitieValidationException = assertThrows(EntitieValidationException.class,
+        EntityValidationException entitieValidationException = assertThrows(EntityValidationException.class,
                 this::CreatePizzaErrorName);
 
         assertEquals("'name' is invalid.", entitieValidationException.getMessage());
@@ -34,7 +34,7 @@ public class PizzaTest {
 
         Pizza pizza = CreatePizza();
 
-        EntitieValidationException entitieValidationException = assertThrows(EntitieValidationException.class,
+        EntityValidationException entitieValidationException = assertThrows(EntityValidationException.class,
                 this::CreatePizzaErrorDesc);
 
         assertEquals("'desc' is invalid.", entitieValidationException.getMessage());
@@ -46,7 +46,7 @@ public class PizzaTest {
 
         Pizza pizza = CreatePizza();
 
-        EntitieValidationException entitieValidationException = assertThrows(EntitieValidationException.class,
+        EntityValidationException entitieValidationException = assertThrows(EntityValidationException.class,
                 this::CreatePizzaErrorPrice);
 
         assertEquals("'price' cannot be less than 0.", entitieValidationException.getMessage());

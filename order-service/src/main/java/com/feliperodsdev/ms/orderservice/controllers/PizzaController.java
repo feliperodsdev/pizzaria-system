@@ -21,7 +21,7 @@ public class PizzaController {
     public ResponseEntity<Object> createPizza(@RequestBody CreatePizzaDto createPizzaDto){
         HttpResponseDto response = new HttpResponseDto();
 
-        String[] requiredFields = {"pizza_id", "price"};
+        String[] requiredFields = {"pizzaId", "price"};
 
         for (String field : requiredFields) {
             try {

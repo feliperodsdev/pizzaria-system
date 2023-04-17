@@ -1,7 +1,7 @@
 package com.feliperodsdev.ms.pizzaservice.controller.exceptions;
 
 import com.feliperodsdev.ms.pizzaservice.dtos.HttpResponseDto;
-import com.feliperodsdev.ms.pizzaservice.model.exceptions.EntitieValidationException;
+import com.feliperodsdev.ms.pizzaservice.model.exceptions.EntityValidationException;
 import com.feliperodsdev.ms.pizzaservice.services.exceptions.ResouceNotFound;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class ResourceExceptionHandler {
 
-    @ExceptionHandler(EntitieValidationException.class)
-    public ResponseEntity<Object> entitieValidationError(EntitieValidationException e){
+    @ExceptionHandler(EntityValidationException.class)
+    public ResponseEntity<Object> entitieValidationError(EntityValidationException e){
         HttpResponseDto response = new HttpResponseDto();
         String error = "Validation Error";
         HttpStatus statusCode = HttpStatus.BAD_REQUEST;

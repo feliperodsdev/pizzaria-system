@@ -1,6 +1,6 @@
 package com.feliperodsdev.ms.pizzaservice.model;
 
-import com.feliperodsdev.ms.pizzaservice.model.exceptions.EntitieValidationException;
+import com.feliperodsdev.ms.pizzaservice.model.exceptions.EntityValidationException;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -21,15 +21,15 @@ public class Pizza {
         Pizza pizza = new Pizza();
 
         if(!pizza.isValidName(name)) {
-            throw new EntitieValidationException("'name' is invalid.");
+            throw new EntityValidationException("'name' is invalid.");
         }
 
         if(!pizza.isValidPrice(price)){
-            throw new EntitieValidationException("'price' cannot be less than 0.");
+            throw new EntityValidationException("'price' cannot be less than 0.");
         }
 
         if(!pizza.isValidDesc(desc)){
-            throw new EntitieValidationException("'desc' is invalid.");
+            throw new EntityValidationException("'desc' is invalid.");
         }
 
         pizza.price = BigDecimal.valueOf(price);
@@ -41,7 +41,7 @@ public class Pizza {
     public void updateName(String name){
 
         if(!isValidName(name)) {
-            throw new EntitieValidationException("'name' is invalid.");
+            throw new EntityValidationException("'name' is invalid.");
         }
 
         this.name = name;
@@ -50,7 +50,7 @@ public class Pizza {
     public void updatePrice(Double price){
 
         if(!isValidPrice(price)){
-            throw new EntitieValidationException("'price' cannot be less than 0.");
+            throw new EntityValidationException("'price' cannot be less than 0.");
         }
 
         this.price = BigDecimal.valueOf(price);
@@ -59,7 +59,7 @@ public class Pizza {
     public void updateDesc(String desc){
 
         if(!isValidDesc(desc)){
-            throw new EntitieValidationException("'desc' is invalid.");
+            throw new EntityValidationException("'desc' is invalid.");
         }
 
         this.desc = desc;
