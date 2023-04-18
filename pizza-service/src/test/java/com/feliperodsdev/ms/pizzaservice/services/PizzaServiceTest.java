@@ -1,23 +1,28 @@
 package com.feliperodsdev.ms.pizzaservice.services;
 import com.feliperodsdev.ms.pizzaservice.dtos.CreatePizzaDto;
+import com.feliperodsdev.ms.pizzaservice.dtos.CreatePizzaOrderDto;
 import com.feliperodsdev.ms.pizzaservice.dtos.UpdatePizzaDto;
 import com.feliperodsdev.ms.pizzaservice.model.Pizza;
 import com.feliperodsdev.ms.pizzaservice.services.memory.InMemoryDB;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
 import com.feliperodsdev.ms.pizzaservice.services.exceptions.ResouceNotFound;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 public class PizzaServiceTest {
 
-    PizzaService pizzaService = new PizzaService(new InMemoryDB());
+    private PizzaHttpServiceFake httpServiceMock = new PizzaHttpServiceFake();
+
+    PizzaService pizzaService = new PizzaService(new InMemoryDB(), httpServiceMock);
 
     @Test
     public void should_create_an_pizza() {
         CreatePizzaDto pizza = GetPizza();
-        pizzaService.createPizza(pizza);
+        Pizza createdPizza = pizzaService.createPizza(pizza);
+        CreatePizzaOrderDto createPizzaOrderDto = new CreatePizzaOrderDto(createdPizza.getId(), createdPizza.getPrice());
+        Assertions.assertEquals(1, httpServiceMock.getCreatePizzaOrderDtoList().size());
         Assertions.assertEquals(1, pizzaService.getAllPizzas().size());
     }
 
@@ -33,7 +38,6 @@ public class PizzaServiceTest {
             pizzaService.findPizzaById("invalid id");
         });
     }
-    
 
     @Test
     public void should_update_pizza(){
@@ -45,8 +49,9 @@ public class PizzaServiceTest {
 
         Pizza updatedPizza = pizzaService.findPizzaById(pizza.getId());
 
+        Assertions.assertEquals(1, httpServiceMock.getUpdatePizzaDtoList().size());
         Assertions.assertEquals(pizza.getName(), "Peperoni");
-        Assertions.assertEquals(pizza.getPrice(), BigDecimal.valueOf(20.5));
+        Assertions.assertEquals(pizza.getPrice(), 20.5);
     }
 
     public CreatePizzaDto GetPizza(){

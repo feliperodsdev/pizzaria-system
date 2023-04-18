@@ -42,7 +42,7 @@ public class PizzaController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Object> updatePizza(@RequestParam("id") String id, @RequestBody UpdatePizzaDto updatePizzaDto){
+    public ResponseEntity<Object> updatePizza(@PathVariable("id") String id, @RequestBody UpdatePizzaDto updatePizzaDto){
         HttpResponseDto response = new HttpResponseDto();
 
         String[] requiredFields = {"price"};

@@ -13,7 +13,7 @@ public class Pizza {
     private String id;
     private String name;
     private String desc;
-    private BigDecimal price;
+    private Double price;
 
     public Pizza(){}
 
@@ -32,7 +32,7 @@ public class Pizza {
             throw new EntityValidationException("'desc' is invalid.");
         }
 
-        pizza.price = BigDecimal.valueOf(price);
+        pizza.price = price;
         pizza.desc = desc;
         pizza.name = name;
         return pizza;
@@ -53,7 +53,7 @@ public class Pizza {
             throw new EntityValidationException("'price' cannot be less than 0.");
         }
 
-        this.price = BigDecimal.valueOf(price);
+        this.price = price;
     }
 
     public void updateDesc(String desc){
@@ -94,7 +94,7 @@ public class Pizza {
         return desc;
     }
 
-    public BigDecimal getPrice() {
+    public Double getPrice() {
         return price;
     }
     public void setId(String id) {
