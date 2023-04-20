@@ -22,7 +22,7 @@ public class Payment {
 
     public Payment(){}
 
-    public static Payment create(Double value, Long referenceId){
+    public static Payment create(Double value, Long referenceId, FinancialTransactionType financialTransactionType){
         Payment payment = new Payment();
 
         if(!payment.isValidReferenceId(referenceId)) throw new EntityValidationException("'referenceId' is invalid.");
@@ -34,6 +34,7 @@ public class Payment {
         payment.value = value;
         payment.statusPayment = PaymentStatus.WAITING_PAYMENT;
         payment.paymentMethod = null;
+        payment.type = financialTransactionType;
 
         return payment;
     }
@@ -72,6 +73,17 @@ public class Payment {
 
     public void markAsRefund(){
         this.statusPayment = PaymentStatus.REFUND;
+    }
+
+    public void markAsPaid(PaymentMethod paymentMethod){
+        if(this.statusPayment != PaymentStatus.WAITING_PAYMENT) throw new EntityValidationException("Payment is not waiting payment.");
+        this.statusPayment = PaymentStatus.PAID;
+        this.paymentMethod = paymentMethod;
+    }
+
+    public void markAsCanceled(){
+        if(this.statusPayment != PaymentStatus.WAITING_PAYMENT) throw new EntityValidationException("Payment is already confirmed.");
+        this.statusPayment = PaymentStatus.CANCELED;
     }
 
 }
