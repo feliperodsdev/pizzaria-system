@@ -3,7 +3,6 @@ package com.feliperodsdev.ms.orderservice.model;
 import com.feliperodsdev.ms.orderservice.dtos.CreateOrderDto;
 import com.feliperodsdev.ms.orderservice.dtos.OrderItemDto;
 import com.feliperodsdev.ms.orderservice.model.exceptions.EntityValidationException;
-import org.assertj.core.util.Arrays;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

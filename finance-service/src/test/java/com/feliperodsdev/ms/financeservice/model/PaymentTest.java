@@ -2,6 +2,7 @@ package com.feliperodsdev.ms.financeservice.model;
 
 import com.feliperodsdev.ms.financeservice.enums.PaymentStatus;
 import com.feliperodsdev.ms.financeservice.model.exceptions.EntityValidationException;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
@@ -29,6 +30,14 @@ public class PaymentTest {
                 this::createPaymentErrorValue);
 
         assertEquals("'value' is invalid.", entityValidationException.getMessage());
+    }
+
+    @Test
+    public void should_mark_asrefund(){
+        Payment payment = Payment.create(20.5, Long.valueOf(5));
+        Assertions.assertEquals(PaymentStatus.WAITING_PAYMENT, payment.getStatusPayment());
+        payment.markAsRefund();
+        Assertions.assertEquals(PaymentStatus.REFUND, payment.getStatusPayment());
     }
 
     public void createPaymentErrorReferenceId(){
