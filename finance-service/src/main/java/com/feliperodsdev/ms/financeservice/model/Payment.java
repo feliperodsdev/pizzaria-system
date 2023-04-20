@@ -1,5 +1,6 @@
 package com.feliperodsdev.ms.financeservice.model;
 
+import com.feliperodsdev.ms.financeservice.enums.FinancialTransactionType;
 import com.feliperodsdev.ms.financeservice.enums.PaymentMethod;
 import com.feliperodsdev.ms.financeservice.enums.PaymentStatus;
 import com.feliperodsdev.ms.financeservice.model.exceptions.EntityValidationException;
@@ -17,6 +18,7 @@ public class Payment {
     private PaymentStatus statusPayment;
     private PaymentMethod paymentMethod;
     private Long referenceId;
+    private FinancialTransactionType type;
 
     public Payment(){}
 
@@ -26,6 +28,9 @@ public class Payment {
         if(!payment.isValidReferenceId(referenceId)) throw new EntityValidationException("'referenceId' is invalid.");
 
         payment.referenceId = referenceId;
+
+        if(!payment.isValidValue(value)) throw new EntityValidationException("'value' is invalid.");
+
         payment.value = value;
         payment.statusPayment = PaymentStatus.WAITING_PAYMENT;
         payment.paymentMethod = null;
@@ -34,7 +39,11 @@ public class Payment {
     }
 
     public boolean isValidReferenceId(Long id){
-        return id == null || id < 0;
+        return id >= 0;
+    }
+
+    public boolean isValidValue(Double value){
+        return value >= 0;
     }
 
     public Long getId() {
@@ -56,4 +65,13 @@ public class Payment {
     public Long getReferenceId() {
         return referenceId;
     }
+
+    public FinancialTransactionType getType() {
+        return type;
+    }
+
+    public void markAsRefund(){
+        this.statusPayment = PaymentStatus.REFUND;
+    }
+
 }

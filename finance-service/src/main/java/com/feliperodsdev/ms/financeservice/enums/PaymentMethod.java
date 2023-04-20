@@ -20,7 +20,7 @@ public enum PaymentMethod {
         for(PaymentMethod value: PaymentMethod.values()){
             if(value.getCode() == code){return value;}
         }
-        throw new IllegalArgumentException("Invalid Payment Status Code");
+        throw new IllegalArgumentException("Invalid Payment Method Code");
     }
 
 }
