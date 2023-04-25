@@ -33,4 +33,10 @@ public class FinanceService {
         return repository.findByIdPayment(id).orElseThrow(() -> new ResourceNotFound());
     }
 
+    public void cancelPayment(Long id){
+        Payment payment = findByIdPayment(id);
+        payment.markAsCanceled();
+        repository.save(payment);
+    }
+
 }
