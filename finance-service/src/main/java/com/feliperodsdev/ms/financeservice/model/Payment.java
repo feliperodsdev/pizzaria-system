@@ -86,4 +86,8 @@ public class Payment {
         this.statusPayment = PaymentStatus.CANCELED;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
 }

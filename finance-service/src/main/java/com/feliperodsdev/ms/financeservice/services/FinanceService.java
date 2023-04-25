@@ -3,6 +3,7 @@ package com.feliperodsdev.ms.financeservice.services;
 import com.feliperodsdev.ms.financeservice.dtos.CreatePaymentDto;
 import com.feliperodsdev.ms.financeservice.model.Payment;
 import com.feliperodsdev.ms.financeservice.repositories.IFinanceRepository;
+import com.feliperodsdev.ms.financeservice.services.exceptions.ResourceNotFound;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,6 +27,10 @@ public class FinanceService {
 
     public List<Payment> getAllPayments(){
         return repository.getAllPayments();
+    }
+
+    public Payment findByIdPayment(Long id){
+        return repository.findByIdPayment(id).orElseThrow(() -> new ResourceNotFound());
     }
 
 }
