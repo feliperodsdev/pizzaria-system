@@ -72,6 +72,8 @@ public class Payment {
     }
 
     public void markAsRefund(){
+        if(this.statusPayment != PaymentStatus.PAID) throw new EntityValidationException("This Payment is not paid yet.");
+        if(this.type != FinancialTransactionType.REVENUE) throw new EntityValidationException("Not able to refund an expense.");
         this.statusPayment = PaymentStatus.REFUND;
     }
 
