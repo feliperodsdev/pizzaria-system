@@ -1,7 +1,9 @@
 package com.feliperodsdev.ms.financeservice.services;
 
 import com.feliperodsdev.ms.financeservice.dtos.CreatePaymentDto;
+import com.feliperodsdev.ms.financeservice.dtos.MarkAsPaidDto;
 import com.feliperodsdev.ms.financeservice.enums.FinancialTransactionType;
+import com.feliperodsdev.ms.financeservice.enums.PaymentMethod;
 import com.feliperodsdev.ms.financeservice.enums.PaymentStatus;
 import com.feliperodsdev.ms.financeservice.model.Payment;
 import com.feliperodsdev.ms.financeservice.services.exceptions.ResourceNotFound;
@@ -52,6 +54,28 @@ public class PaymentServiceTest {
                 .getId());
         financeService.cancelPayment(payment.getId());
         Assertions.assertEquals(PaymentStatus.CANCELED, payment.getStatusPayment());
+    }
+
+    @Test
+    public void should_mark_payment_asRefund(){
+        financeService.createPayment(getCreatePaymentDto(20.5));
+        Payment payment = financeService.findByIdPayment(financeService.getAllPayments()
+                .get(0)
+                .getId());
+        financeService.markAsPaid(payment.getId(), new MarkAsPaidDto(PaymentMethod.MONEY));
+        financeService.markAsRefund(payment.getId());
+        Assertions.assertEquals(PaymentStatus.REFUND, payment.getStatusPayment());
+    }
+
+    @Test
+    public void should_mark_payment_asPaid(){
+        financeService.createPayment(getCreatePaymentDto(20.5));
+        Payment payment = financeService.findByIdPayment(financeService.getAllPayments()
+                .get(0)
+                .getId());
+        financeService.markAsPaid(payment.getId(), new MarkAsPaidDto(PaymentMethod.MONEY));
+        financeService.markAsRefund(payment.getId());
+        Assertions.assertEquals(PaymentStatus.REFUND, payment.getStatusPayment());
     }
 
     public CreatePaymentDto getCreatePaymentDto(Double value){
