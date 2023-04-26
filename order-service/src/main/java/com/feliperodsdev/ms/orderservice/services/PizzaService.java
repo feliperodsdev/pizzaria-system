@@ -22,7 +22,7 @@ public class PizzaService {
     }
 
     public void createPizza(CreatePizzaDto createPizzaDto){
-        Optional<Pizza> pizzaOptional = getPizzaById(createPizzaDto.getPizzaId());
+        Optional<Pizza> pizzaOptional = pizzaRepository.findPizzaById(createPizzaDto.getPizzaId());
 
         if(!pizzaOptional.isEmpty()) throw new ResourceAlreadyExists("This 'id' already exists.");
 
@@ -30,8 +30,8 @@ public class PizzaService {
         pizzaRepository.savePizza(pizza);
     }
 
-    public Optional<Pizza> getPizzaById(String id){
-        return pizzaRepository.findPizzaById(id);
+    public Pizza getPizzaById(String id){
+        return pizzaRepository.findPizzaById(id).orElseThrow(() -> new ResourceNotFound("Pizza not found, id: " + id));
     }
 
     public List<Pizza> getAllPizzas(){
@@ -39,12 +39,10 @@ public class PizzaService {
     }
 
     public void updatePizza(String id, UpdatePizzaDto updatePizzaDto){
-        Optional<Pizza> pizzaToUpdate = getPizzaById(id);
+        Pizza pizzaToUpdate = getPizzaById(id);
 
-        Pizza pizza = pizzaToUpdate.orElseThrow(() -> new ResourceNotFound("Pizza not found, id: " + id));
-
-        pizza.updatePrice(updatePizzaDto.getPrice());
-        pizzaRepository.savePizza(pizza);
+        pizzaToUpdate.updatePrice(updatePizzaDto.getPrice());
+        pizzaRepository.savePizza(pizzaToUpdate);
     }
 
 }

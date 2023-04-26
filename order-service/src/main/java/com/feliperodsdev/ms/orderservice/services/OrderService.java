@@ -7,6 +7,7 @@ import com.feliperodsdev.ms.orderservice.model.Order;
 import com.feliperodsdev.ms.orderservice.model.OrderItem;
 import com.feliperodsdev.ms.orderservice.model.Pizza;
 import com.feliperodsdev.ms.orderservice.repositories.IOrderRepository;
+import com.feliperodsdev.ms.orderservice.repositories.IPizzaRepository;
 import com.feliperodsdev.ms.orderservice.services.exceptions.ResourceNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -21,11 +22,12 @@ public class OrderService {
 
     private IOrderRepository orderRepository;
 
-    @Autowired
-    PizzaService pizzaService;
+    private IPizzaRepository pizzaRepository;
 
-    public OrderService(@Qualifier("PostgresOrderRepository") IOrderRepository orderRepository) {
+    public OrderService(@Qualifier("PostgresOrderRepository") IOrderRepository orderRepository,
+                        @Qualifier("PostgresPizzaRepository") IPizzaRepository pizzaRepository) {
         this.orderRepository = orderRepository;
+        this.pizzaRepository = pizzaRepository;
     }
 
     public Order createOrder(CreateOrderDto createOrderDto) {
@@ -66,13 +68,8 @@ public class OrderService {
     }
 
     public Pizza getPizza(String id){
-        Optional<Pizza> pizzaOptional = pizzaService.getPizzaById(id);
-
-        if(pizzaOptional.isEmpty()) throw new ResourceNotFound("pizza with id: "
-                + id
-                + " does not exist.");
-
-        return pizzaOptional.get();
+        return pizzaRepository.findPizzaById(id).orElseThrow(() -> new ResourceNotFound("" +
+                "Pizza not found."));
     }
 
 }

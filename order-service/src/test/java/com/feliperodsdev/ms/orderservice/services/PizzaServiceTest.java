@@ -12,18 +12,20 @@ import java.util.List;
 public class PizzaServiceTest {
 
     PizzaService pizzaService = new PizzaService(new InMemoryPizzaDB());
+    //always will have at least 1 pizza in DB because
+    // it was necessary to other tests
 
     @Test
     public void should_create_an_pizza() {
         CreatePizzaDto pizza = GetPizza();
         pizzaService.createPizza(pizza);
-        Assertions.assertEquals(1, pizzaService.getAllPizzas().size());
+        Assertions.assertEquals(2, pizzaService.getAllPizzas().size());
     }
 
     @Test
     public void should_return_pizzas() {
         List<Pizza> pizzaList = pizzaService.getAllPizzas();
-        Assertions.assertEquals(0, pizzaList.size());
+        Assertions.assertEquals(1, pizzaList.size());
     }
 
     @Test
@@ -31,10 +33,10 @@ public class PizzaServiceTest {
         CreatePizzaDto pizzaCreate = GetPizza();
         pizzaService.createPizza(pizzaCreate);
         List<Pizza> pizzaList = pizzaService.getAllPizzas();
-        Pizza pizza = pizzaService.getPizzaById(pizzaList.get(0).getPizzaId()).get();
+        Pizza pizza = pizzaService.getPizzaById(pizzaList.get(0).getPizzaId());
         UpdatePizzaDto updatePizzaDto = new UpdatePizzaDto(20.0);
         pizzaService.updatePizza(pizza.getPizzaId(), updatePizzaDto);
-        Pizza pizzaUpdated = pizzaService.getPizzaById(pizzaList.get(0).getPizzaId()).get();
+        Pizza pizzaUpdated = pizzaService.getPizzaById(pizzaList.get(0).getPizzaId());
         Assertions.assertEquals(pizzaUpdated.getPrice(), 20.0);
     }
 

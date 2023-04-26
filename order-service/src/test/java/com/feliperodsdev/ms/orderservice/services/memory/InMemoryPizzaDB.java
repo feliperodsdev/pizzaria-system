@@ -11,6 +11,10 @@ public class InMemoryPizzaDB implements IPizzaRepository {
 
     private List<Pizza> pizzaList = new ArrayList<>();
 
+    public InMemoryPizzaDB() {
+        pizzaList.add(Pizza.Create("valid id.", 10.0));
+    }
+
     @Override
     public void savePizza(Pizza pizza) {
         this.pizzaList.add(pizza);
