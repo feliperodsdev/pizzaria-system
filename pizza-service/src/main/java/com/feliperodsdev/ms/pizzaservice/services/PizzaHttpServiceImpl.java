@@ -3,13 +3,14 @@ package com.feliperodsdev.ms.pizzaservice.services;
 import com.feliperodsdev.ms.pizzaservice.dtos.CreatePizzaOrderDto;
 import com.feliperodsdev.ms.pizzaservice.dtos.UpdateOrderPizzaDto;
 import com.feliperodsdev.ms.pizzaservice.dtos.UpdatePizzaDto;
+import com.feliperodsdev.ms.pizzaservice.services.exceptions.ServiceNotWorking;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 @Service
@@ -29,10 +30,15 @@ public class PizzaHttpServiceImpl implements IPizzaHttpService {
 
         HttpEntity<UpdateOrderPizzaDto> request = new HttpEntity<>(pizzaToUpdateOrder, headers);
 
-        restTemplate.exchange(urlOrderService + "pizza/update/" + id, HttpMethod.PUT, request, String.class);
+        ResponseEntity<Object> response = restTemplate.exchange(urlOrderService + "pizza/update/" + id,
+                HttpMethod.PUT,
+                request, Object.class);
+
+        if(!response.getStatusCode().is2xxSuccessful())
+            throw new ServiceNotWorking();
     }
 
-    public void createPizzaOrder(CreatePizzaOrderDto createPizzaDto){
+    public void createPizzaOrder(CreatePizzaOrderDto createPizzaDto) {
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
@@ -40,7 +46,28 @@ public class PizzaHttpServiceImpl implements IPizzaHttpService {
 
         HttpEntity<CreatePizzaOrderDto> request = new HttpEntity<>(createPizzaDto, headers);
 
-        restTemplate.postForEntity(urlOrderService + "pizza/create", request, String.class);
+        ResponseEntity<Object> response = restTemplate.exchange(urlOrderService +
+                            "pizza/create",
+                    HttpMethod.POST, request, Object.class);
+
+        if(!response.getStatusCode().is2xxSuccessful())
+            throw new ServiceNotWorking();
+
+    }
+
+    public void deletePizzaOrder(String id){
+        RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+
+        ResponseEntity<Object> response = restTemplate.exchange(urlOrderService
+                + "pizza/delete/" + id, HttpMethod.DELETE, null, Object.class);
+
+        if(!response.getStatusCode().is2xxSuccessful())
+            throw new ServiceNotWorking();
+
     }
 
 }

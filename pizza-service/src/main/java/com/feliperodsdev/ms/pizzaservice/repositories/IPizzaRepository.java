@@ -13,4 +13,6 @@ public interface IPizzaRepository {
 
     Optional<Pizza> findPizzaById(String id);
 
+    void deletePizzaById(String id);
+
 }

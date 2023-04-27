@@ -20,7 +20,7 @@ public class PizzaController {
     @RequestMapping("/create")
     public ResponseEntity<Object> createPizza(@RequestBody CreatePizzaDto createPizzaDto){
         HttpResponseDto response = new HttpResponseDto();
-
+        System.out.println(createPizzaDto.getPizzaId());
         String[] requiredFields = {"pizzaId", "price"};
 
         for (String field : requiredFields) {

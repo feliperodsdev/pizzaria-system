@@ -7,5 +7,6 @@ public interface IPizzaHttpService {
 
     void updatePizzaOrder(String id, UpdatePizzaDto updatePizzaDto);
     void createPizzaOrder(CreatePizzaOrderDto createPizzaDto);
+    void deletePizzaOrder(String id);
 
 }

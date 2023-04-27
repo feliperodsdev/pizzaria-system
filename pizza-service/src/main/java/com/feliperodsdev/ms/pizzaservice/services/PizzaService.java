@@ -57,4 +57,10 @@ public class PizzaService {
         this.pizzaRepository.save(pizzaToUpdate);
     }
 
+    public void deletePizzaById(String id){
+        findPizzaById(id);
+        pizzaHttpService.deletePizzaOrder(id);
+        this.pizzaRepository.deletePizzaById(id);
+    }
+
 }

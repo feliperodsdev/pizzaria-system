@@ -30,4 +30,9 @@ public class PizzaRespositoryMongoImpl implements IPizzaRepository{
         return this.pizzaMongoRepository.findById(id);
     }
 
+    @Override
+    public void deletePizzaById(String id) {
+        this.pizzaMongoRepository.deleteById(id);
+    }
+
 }
