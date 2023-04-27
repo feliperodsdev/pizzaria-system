@@ -65,4 +65,11 @@ public class PizzaController {
 
     }
 
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Object> deletePizza(@PathVariable("id") String id){
+        HttpResponseDto response = new HttpResponseDto();
+        pizzaService.deletePizzaById(id);
+        return response.ok("deleted");
+    }
+
 }

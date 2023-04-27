@@ -31,7 +31,8 @@ public class PizzaService {
     }
 
     public Pizza getPizzaById(String id){
-        return pizzaRepository.findPizzaById(id).orElseThrow(() -> new ResourceNotFound("Pizza not found, id: " + id));
+        return pizzaRepository.findPizzaById(id).orElseThrow(()
+                -> new ResourceNotFound("Pizza not found, id: " + id));
     }
 
     public List<Pizza> getAllPizzas(){
@@ -43,6 +44,11 @@ public class PizzaService {
 
         pizzaToUpdate.updatePrice(updatePizzaDto.getPrice());
         pizzaRepository.savePizza(pizzaToUpdate);
+    }
+
+    public void deletePizzaById(String id){
+        getPizzaById(id);
+        pizzaRepository.deletePizzaById(id);
     }
 
 }

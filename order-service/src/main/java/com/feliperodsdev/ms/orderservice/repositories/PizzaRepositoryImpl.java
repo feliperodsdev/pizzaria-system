@@ -30,4 +30,9 @@ public class PizzaRepositoryImpl implements IPizzaRepository {
         return this.pizzaRepositoryPostgres.findById(id);
     }
 
+    @Override
+    public void deletePizzaById(String id) {
+        pizzaRepositoryPostgres.deleteById(id);
+    }
+
 }

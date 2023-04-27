@@ -2,6 +2,7 @@ package com.feliperodsdev.ms.orderservice.services.memory;
 
 import com.feliperodsdev.ms.orderservice.model.Pizza;
 import com.feliperodsdev.ms.orderservice.repositories.IPizzaRepository;
+import com.feliperodsdev.ms.orderservice.services.exceptions.ResourceNotFound;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +34,13 @@ public class InMemoryPizzaDB implements IPizzaRepository {
             }
         }
         return Optional.empty();
+    }
+
+    @Override
+    public void deletePizzaById(String id) {
+        Pizza pizza = findPizzaById(id).orElseThrow(
+                () -> new ResourceNotFound("Pizza not found, id: " + id));
+        pizzaList.remove(pizza);
     }
 
 }

@@ -17,7 +17,7 @@ public class PizzaServiceTest {
 
     @Test
     public void should_create_an_pizza() {
-        CreatePizzaDto pizza = GetPizza();
+        CreatePizzaDto pizza = getPizza();
         pizzaService.createPizza(pizza);
         Assertions.assertEquals(2, pizzaService.getAllPizzas().size());
     }
@@ -30,7 +30,7 @@ public class PizzaServiceTest {
 
     @Test
     public void should_update_pizza() {
-        CreatePizzaDto pizzaCreate = GetPizza();
+        CreatePizzaDto pizzaCreate = getPizza();
         pizzaService.createPizza(pizzaCreate);
         List<Pizza> pizzaList = pizzaService.getAllPizzas();
         Pizza pizza = pizzaService.getPizzaById(pizzaList.get(0).getPizzaId());
@@ -40,7 +40,21 @@ public class PizzaServiceTest {
         Assertions.assertEquals(pizzaUpdated.getPrice(), 20.0);
     }
 
-    public CreatePizzaDto GetPizza(){
+    @Test
+    public void should_delete_pizza(){
+        pizzaService.createPizza(getPizza());
+        Pizza pizza = pizzaService.getPizzaById(getPizza().getPizzaId());
+        Assertions.assertEquals(getPizza().getPizzaId(), pizza.getPizzaId());
+        pizzaService.deletePizzaById("6425b05a66bb0e2c94fbac9f");
+        Assertions.assertEquals(1, pizzaService.getAllPizzas().size());
+        //ensure that the pizza in the db is a different one
+        //as we will need that for other tests.
+        Assertions.assertEquals("valid id.", pizzaService
+                .getPizzaById("valid id.")
+                .getPizzaId());
+    }
+
+    public CreatePizzaDto getPizza(){
         return new CreatePizzaDto("6425b05a66bb0e2c94fbac9f",15.5);
     }
 

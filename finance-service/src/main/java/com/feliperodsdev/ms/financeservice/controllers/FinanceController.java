@@ -86,7 +86,7 @@ public class FinanceController {
     public ResponseEntity<Object> markAsRefunded(@PathVariable("id") Long id){
         HttpResponseDto response = new HttpResponseDto();
         financeService.markAsRefund(id);
-        return response.ok("Refunded");
+        return response.ok("Refundedk");
     }
 
 }
