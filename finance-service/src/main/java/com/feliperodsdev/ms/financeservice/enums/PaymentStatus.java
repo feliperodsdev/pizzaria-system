@@ -1,5 +1,7 @@
 package com.feliperodsdev.ms.financeservice.enums;
 
+import com.feliperodsdev.ms.financeservice.enums.exceptions.InvalidCode;
+
 public enum PaymentStatus {
 
     WAITING_PAYMENT(1),
@@ -21,7 +23,7 @@ public enum PaymentStatus {
         for(PaymentStatus value: PaymentStatus.values()){
             if(value.getCode() == code){return value;}
         }
-        throw new IllegalArgumentException("Invalid Payment Status Code");
+        throw new InvalidCode("Invalid Payment Status Code");
     }
 
 }

@@ -1,6 +1,7 @@
 package com.feliperodsdev.ms.financeservice.controllers.exceptions;
 
 import com.feliperodsdev.ms.financeservice.dtos.HttpResponseDto;
+import com.feliperodsdev.ms.financeservice.enums.exceptions.InvalidCode;
 import com.feliperodsdev.ms.financeservice.model.exceptions.EntityValidationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,15 @@ public class ResourceExceptionHandler {
     public ResponseEntity<Object> entityValidationError(EntityValidationException e){
         HttpResponseDto response = new HttpResponseDto();
         String error = "Validation Error";
+        HttpStatus statusCode = HttpStatus.BAD_REQUEST;
+        StandardError standardError = new StandardError(statusCode, error, e.getMessage());
+        return response.badRequest(standardError);
+    }
+
+    @ExceptionHandler(InvalidCode.class)
+    public ResponseEntity<Object> invalidCodeError(InvalidCode e){
+        HttpResponseDto response = new HttpResponseDto();
+        String error = "Param Error";
         HttpStatus statusCode = HttpStatus.BAD_REQUEST;
         StandardError standardError = new StandardError(statusCode, error, e.getMessage());
         return response.badRequest(standardError);

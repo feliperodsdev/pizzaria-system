@@ -3,6 +3,7 @@ package com.feliperodsdev.ms.financeservice.controllers;
 import com.feliperodsdev.ms.financeservice.dtos.CreatePaymentDto;
 import com.feliperodsdev.ms.financeservice.dtos.HttpResponseDto;
 import com.feliperodsdev.ms.financeservice.dtos.MarkAsPaidDto;
+import com.feliperodsdev.ms.financeservice.enums.FinancialTransactionType;
 import com.feliperodsdev.ms.financeservice.services.FinanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -86,7 +87,13 @@ public class FinanceController {
     public ResponseEntity<Object> markAsRefunded(@PathVariable("id") Long id){
         HttpResponseDto response = new HttpResponseDto();
         financeService.markAsRefund(id);
-        return response.ok("Refundedk");
+        return response.ok("Refunded");
+    }
+
+    @GetMapping("/report-quantity/{type}")
+    public ResponseEntity<Object> getReportQuantity(@PathVariable("type") int type){
+        HttpResponseDto response = new HttpResponseDto();
+        return response.ok(financeService.getReportQuantity(FinancialTransactionType.valueOf(type)));
     }
 
 }

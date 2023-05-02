@@ -1,5 +1,7 @@
 package com.feliperodsdev.ms.financeservice.enums;
 
+import com.feliperodsdev.ms.financeservice.enums.exceptions.InvalidCode;
+
 public enum PaymentMethod {
 
     CREDIT_CARD(1),
@@ -20,7 +22,7 @@ public enum PaymentMethod {
         for(PaymentMethod value: PaymentMethod.values()){
             if(value.getCode() == code){return value;}
         }
-        throw new IllegalArgumentException("Invalid Payment Method Code");
+        throw new InvalidCode("Invalid Payment Method Code");
     }
 
 }

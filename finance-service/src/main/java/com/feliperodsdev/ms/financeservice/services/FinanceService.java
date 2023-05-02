@@ -2,7 +2,9 @@ package com.feliperodsdev.ms.financeservice.services;
 
 import com.feliperodsdev.ms.financeservice.dtos.CreatePaymentDto;
 import com.feliperodsdev.ms.financeservice.dtos.MarkAsPaidDto;
-import com.feliperodsdev.ms.financeservice.enums.PaymentMethod;
+import com.feliperodsdev.ms.financeservice.dtos.ReportQuantityDto;
+import com.feliperodsdev.ms.financeservice.enums.FinancialTransactionType;
+import com.feliperodsdev.ms.financeservice.enums.PaymentStatus;
 import com.feliperodsdev.ms.financeservice.model.Payment;
 import com.feliperodsdev.ms.financeservice.repositories.IFinanceRepository;
 import com.feliperodsdev.ms.financeservice.services.exceptions.ResourceNotFound;
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class FinanceService {
@@ -52,6 +55,35 @@ public class FinanceService {
         Payment payment = findByIdPayment(id);
         payment.markAsRefund();
         repository.save(payment);
+    }
+
+    public ReportQuantityDto getReportQuantity(FinancialTransactionType type){
+        List<Payment> paymentList = repository.getAllPayments().stream().filter(
+                payment -> payment.getType().equals(type)
+        ).collect(Collectors.toList());
+
+        List<Payment> paidPaymentList = getPaymentsByStatus(paymentList, PaymentStatus.PAID);
+
+        List<Payment> waitingPaymentList = getPaymentsByStatus(paymentList, PaymentStatus.WAITING_PAYMENT);
+
+        List<Payment> refundPaymentList = getPaymentsByStatus(paymentList, PaymentStatus.REFUND);
+
+        List<Payment> canceledPaymentList = getPaymentsByStatus(paymentList, PaymentStatus.CANCELED);
+
+        Double totalValuePayment = paymentList.stream()
+                .mapToDouble(Payment::getValue)
+                .sum();
+
+        return new ReportQuantityDto(totalValuePayment, paymentList.size(),
+                paidPaymentList.size(), waitingPaymentList.size(),
+                refundPaymentList.size(), canceledPaymentList.size());
+
+    }
+
+    public List<Payment> getPaymentsByStatus(List<Payment> paymentList, PaymentStatus status){
+        return paymentList.stream().filter(
+                        payment -> payment.getStatusPayment().equals(status))
+                .collect(Collectors.toList());
     }
 
 }

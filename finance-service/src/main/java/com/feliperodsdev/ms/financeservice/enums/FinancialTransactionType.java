@@ -1,5 +1,7 @@
 package com.feliperodsdev.ms.financeservice.enums;
 
+import com.feliperodsdev.ms.financeservice.enums.exceptions.InvalidCode;
+
 public enum FinancialTransactionType {
 
     REVENUE(1),
@@ -19,7 +21,7 @@ public enum FinancialTransactionType {
         for(FinancialTransactionType value: FinancialTransactionType.values()){
             if(value.getCode() == code){return value;}
         }
-        throw new IllegalArgumentException("Invalid Financial Type Code");
+        throw new InvalidCode("Invalid Financial Type Code");
     }
 
 }
