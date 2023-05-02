@@ -4,7 +4,9 @@ import com.feliperodsdev.ms.financeservice.dtos.CreatePaymentDto;
 import com.feliperodsdev.ms.financeservice.dtos.HttpResponseDto;
 import com.feliperodsdev.ms.financeservice.dtos.MarkAsPaidDto;
 import com.feliperodsdev.ms.financeservice.enums.FinancialTransactionType;
+import com.feliperodsdev.ms.financeservice.enums.PaymentStatus;
 import com.feliperodsdev.ms.financeservice.services.FinanceService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -94,6 +96,14 @@ public class FinanceController {
     public ResponseEntity<Object> getReportQuantity(@PathVariable("type") int type){
         HttpResponseDto response = new HttpResponseDto();
         return response.ok(financeService.getReportQuantity(FinancialTransactionType.valueOf(type)));
+    }
+
+    @GetMapping("/report-finance/{type}/{status}")
+    public ResponseEntity<Object> getReportQuantity(@PathVariable("type") int type,
+                                                    @PathVariable("status") int status){
+        HttpResponseDto response = new HttpResponseDto();
+        return response.ok(financeService.getReportFinance(FinancialTransactionType.valueOf(type),
+                PaymentStatus.valueOf(status)));
     }
 
 }
