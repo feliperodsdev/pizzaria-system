@@ -17,6 +17,7 @@ import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.property.TextAlignment;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayInputStream;
@@ -125,7 +126,7 @@ public class FinanceService {
 
     }
 
-    public ByteArrayInputStream getReportFinancePDF(FinancialTransactionType type, PaymentStatus status) throws IOException {
+    public InputStreamResource getReportFinancePDF(FinancialTransactionType type, PaymentStatus status) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
         PdfDocument pdfDocument = new PdfDocument(new PdfWriter(baos));
@@ -170,7 +171,7 @@ public class FinanceService {
         document.add(table);
         document.close();
 
-        return new ByteArrayInputStream(baos.toByteArray());
+        return new InputStreamResource(new ByteArrayInputStream(baos.toByteArray()));
     }
 
     public List<Payment> getPaymentsByStatus(List<Payment> paymentList, PaymentStatus status){
