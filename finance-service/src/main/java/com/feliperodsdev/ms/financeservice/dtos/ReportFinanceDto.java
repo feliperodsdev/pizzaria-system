@@ -1,5 +1,8 @@
 package com.feliperodsdev.ms.financeservice.dtos;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 public class ReportFinanceDto {
 
     private ReportFinanceQuantityDto quantitySession;

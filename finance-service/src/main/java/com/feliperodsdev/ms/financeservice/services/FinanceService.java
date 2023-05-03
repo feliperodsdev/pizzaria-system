@@ -7,9 +7,21 @@ import com.feliperodsdev.ms.financeservice.enums.PaymentStatus;
 import com.feliperodsdev.ms.financeservice.model.Payment;
 import com.feliperodsdev.ms.financeservice.repositories.IFinanceRepository;
 import com.feliperodsdev.ms.financeservice.services.exceptions.ResourceNotFound;
+import com.itextpdf.io.font.constants.StandardFonts;
+import com.itextpdf.kernel.font.PdfFontFactory;
+import com.itextpdf.kernel.geom.PageSize;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Table;
+import com.itextpdf.layout.property.TextAlignment;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -91,17 +103,17 @@ public class FinanceService {
                 .mapToDouble(Payment::getValue)
                 .sum();
 
-        List<Payment> paymentMoneyList = getPaymentsByMethod(paymentList, PaymentMethod.MONEY);
+        List<Payment> paymentMoneyList = getPaymentsByMethod(list, PaymentMethod.MONEY);
         Double valueMoney = paymentMoneyList.stream()
                 .mapToDouble(Payment::getValue)
                 .sum();
 
-        List<Payment> paymentCreditList = getPaymentsByMethod(paymentList, PaymentMethod.CREDIT_CARD);
+        List<Payment> paymentCreditList = getPaymentsByMethod(list, PaymentMethod.CREDIT_CARD);
         Double valueCredit = paymentCreditList.stream()
                 .mapToDouble(Payment::getValue)
                 .sum();
 
-        List<Payment> paymentDebitList = getPaymentsByMethod(paymentList, PaymentMethod.DEBIT_CARD);
+        List<Payment> paymentDebitList = getPaymentsByMethod(list, PaymentMethod.DEBIT_CARD);
         Double debitCredit = paymentDebitList.stream()
                 .mapToDouble(Payment::getValue)
                 .sum();
@@ -111,6 +123,54 @@ public class FinanceService {
                 paymentDebitList.size()), new ReportFinanceValueDto(totalValue, valueMoney,
                 valueCredit, debitCredit));
 
+    }
+
+    public ByteArrayInputStream getReportFinancePDF(FinancialTransactionType type, PaymentStatus status) throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+        PdfDocument pdfDocument = new PdfDocument(new PdfWriter(baos));
+        pdfDocument.setDefaultPageSize(PageSize.A4.rotate());
+
+        Document document = new Document(pdfDocument);
+
+        Paragraph title = new Paragraph(type == FinancialTransactionType.REVENUE ?
+                "Report Finance - Revenues"
+                : "Report Finance - Expenses")
+                .setFontSize(28)
+                .setFont(PdfFontFactory.createFont(StandardFonts.COURIER_BOLD))
+                .setTextAlignment(TextAlignment.CENTER);
+
+        document.add(title);
+        document.add(new Paragraph("\n"));
+
+        Table table = new Table(8)
+                .useAllAvailableWidth()
+                .setTextAlignment(TextAlignment.CENTER);
+
+        table.addHeaderCell("Total Payments");
+        table.addHeaderCell("Total value Payments");
+        table.addHeaderCell("Money Payments");
+        table.addHeaderCell("Money value Payments");
+        table.addHeaderCell("Credit Payments");
+        table.addHeaderCell("Credit value Payments");
+        table.addHeaderCell("Debit Payments");
+        table.addHeaderCell("Debit value Payments");
+
+        ReportFinanceDto reportFinanceDto = getReportFinance(type, status);
+
+        table.addCell(reportFinanceDto.getQuantitySession().getQuantityPayments().toString());
+        table.addCell(reportFinanceDto.getValueSession().getTotalValue().toString());
+        table.addCell(reportFinanceDto.getQuantitySession().getQuantityPaymentMoney().toString());
+        table.addCell(reportFinanceDto.getValueSession().getValueMoney().toString());
+        table.addCell(reportFinanceDto.getQuantitySession().getQuantityPaymentCredit().toString());
+        table.addCell(reportFinanceDto.getValueSession().getValueCredit().toString());
+        table.addCell(reportFinanceDto.getQuantitySession().getQuantityPaymentDebit().toString());
+        table.addCell(reportFinanceDto.getValueSession().getValueDebit().toString());
+
+        document.add(table);
+        document.close();
+
+        return new ByteArrayInputStream(baos.toByteArray());
     }
 
     public List<Payment> getPaymentsByStatus(List<Payment> paymentList, PaymentStatus status){

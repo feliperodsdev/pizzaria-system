@@ -8,9 +8,14 @@ import com.feliperodsdev.ms.financeservice.enums.PaymentStatus;
 import com.feliperodsdev.ms.financeservice.services.FinanceService;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 
 @RestController
@@ -102,8 +107,25 @@ public class FinanceController {
     public ResponseEntity<Object> getReportQuantity(@PathVariable("type") int type,
                                                     @PathVariable("status") int status){
         HttpResponseDto response = new HttpResponseDto();
-        return response.ok(financeService.getReportFinance(FinancialTransactionType.valueOf(type),
-                PaymentStatus.valueOf(status)));
+        return response.ok(financeService.getReportFinance(FinancialTransactionType.valueOf(type), PaymentStatus.valueOf(status)));
+    }
+
+    @GetMapping("/report-finance/pdf/{type}/{status}")
+    public ResponseEntity<Object> getReportQuantityPDF(@PathVariable("type") int type,
+                                                    @PathVariable("status") int status) throws IOException {
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Content-Disposition", "inline; filename=finance.pdf");
+
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .contentType(MediaType.APPLICATION_PDF)
+                    .body(new InputStreamResource(financeService.getReportFinancePDF(FinancialTransactionType.valueOf(type),
+                            PaymentStatus.valueOf(status))));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+
     }
 
 }
