@@ -5,10 +5,13 @@ import com.feliperodsdev.ms.orderservice.dtos.HttpResponseDto;
 import com.feliperodsdev.ms.orderservice.dtos.UpdatePizzaDto;
 import com.feliperodsdev.ms.orderservice.services.PizzaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Field;
+import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("/pizza")
@@ -20,15 +23,18 @@ public class PizzaController {
     @RequestMapping("/create")
     public ResponseEntity<Object> createPizza(@RequestBody CreatePizzaDto createPizzaDto){
         HttpResponseDto response = new HttpResponseDto();
-        System.out.println(createPizzaDto.getPizzaId());
+
         String[] requiredFields = {"pizzaId", "price"};
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("date-time", LocalDateTime.now().toString());
 
         for (String field : requiredFields) {
             try {
                 Field declaredField = createPizzaDto.getClass().getDeclaredField(field);
                 declaredField.setAccessible(true);
                 if (declaredField.get(createPizzaDto) == null) {
-                    return response.badRequest("Missing Param: " + field);
+                    return response.badRequest("Missing Param: " + field, headers, MediaType.APPLICATION_JSON);
                 }
             } catch (NoSuchFieldException | IllegalAccessException e) {
                 return response.serverError(e.getMessage());
@@ -37,7 +43,7 @@ public class PizzaController {
 
         pizzaService.createPizza(createPizzaDto);
 
-        return response.created("created");
+        return response.created("created", headers, MediaType.APPLICATION_JSON);
 
     }
 
@@ -47,12 +53,15 @@ public class PizzaController {
 
         String[] requiredFields = {"price"};
 
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("date-time", LocalDateTime.now().toString());
+
         for (String field : requiredFields) {
             try {
                 Field declaredField = updatePizzaDto.getClass().getDeclaredField(field);
                 declaredField.setAccessible(true);
                 if (declaredField.get(updatePizzaDto) == null) {
-                    return response.badRequest("Missing Param: " + field);
+                    return response.badRequest("Missing Param: " + field, headers, MediaType.APPLICATION_JSON);
                 }
             } catch (NoSuchFieldException | IllegalAccessException e) {
                 return response.serverError(e.getMessage());
@@ -61,7 +70,7 @@ public class PizzaController {
 
         pizzaService.updatePizza(id, updatePizzaDto);
 
-        return response.ok("updated");
+        return response.ok("updated", headers, MediaType.APPLICATION_JSON);
 
     }
 
@@ -69,7 +78,11 @@ public class PizzaController {
     public ResponseEntity<Object> deletePizza(@PathVariable("id") String id){
         HttpResponseDto response = new HttpResponseDto();
         pizzaService.deletePizzaById(id);
-        return response.ok("deleted");
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("date-time", LocalDateTime.now().toString());
+
+        return response.ok("deleted", headers, MediaType.APPLICATION_JSON);
     }
 
 }
