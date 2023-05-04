@@ -14,7 +14,7 @@ public class PizzaTest {
         Pizza pizza = Pizza.Create("Calabresa", "One of the best!", 15.5);
         assertEquals(pizza.getName(), "Calabresa");
         assertEquals(pizza.getDesc(), "One of the best!");
-        assertEquals(pizza.getPrice(), BigDecimal.valueOf(15.5));
+        assertEquals(pizza.getPrice(), 15.5);
     }
 
     @Test

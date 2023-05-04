@@ -29,4 +29,9 @@ public class InMemoryDB implements IPizzaRepository {
         }
         return Optional.empty();
     }
+
+    @Override
+    public void deletePizzaById(String id) {
+
+    }
 }

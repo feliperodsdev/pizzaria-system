@@ -21,6 +21,11 @@ public class PizzaHttpServiceFake implements IPizzaHttpService {
         createPizzaOrderDtoList.add(createPizzaDto);
     }
 
+    @Override
+    public void deletePizzaOrder(String id) {
+        createPizzaOrderDtoList.remove(0);
+    }
+
     public List<CreatePizzaOrderDto> getCreatePizzaOrderDtoList(){
         return this.createPizzaOrderDtoList;
     }
